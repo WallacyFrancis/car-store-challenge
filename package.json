@@ -1,0 +1,33 @@
+{
+  "name": "car-store-challenge",
+  "version": "1.0.0",
+  "description": "## TESTE DESENVOLVA UMA API COM OS SEQUINTES REQUISITOS \t- EXPRESS \t- TYPESCRIPT \t- GRAPHQL \t- SEQUELIZE ( POSTGRES ) \t- MONGOOSE ( MONGO )",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && node ./dist/server.js",
+    "dev": "tsnd --respawn --transpile-only server.ts",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WallacyFrancis/car-store-challenge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WallacyFrancis/car-store-challenge/issues"
+  },
+  "homepage": "https://github.com/WallacyFrancis/car-store-challenge#readme",
+  "devDependencies": {
+    "@types/express": "4.17",
+    "@types/node": "16.18.23",
+    "typescript": "5.2.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "ts-node-dev": "^2.0.0"
+  }
+}

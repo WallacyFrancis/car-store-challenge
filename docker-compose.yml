@@ -1,0 +1,43 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: car_storage
+    ports:
+      - "5432:5432"
+    volumes:
+      - /path/to/postgres/data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+    volumes:
+      - /path/to/mongodb/data:/data/db
+    networks:
+      - mynetwork
+
+  node:
+    image: node:16
+    container_name: node
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    ports:
+      - "3000:3000"
+    command: npm start  # Substitua por seu comando Node.js específico
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:

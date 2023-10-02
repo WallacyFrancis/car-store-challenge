@@ -21,6 +21,7 @@ class CarTypeResolver {
         this.getById = this.getById.bind(this);
         this.update = this.update.bind(this);
         this.create = this.create.bind(this);
+        this.remove = this.remove.bind(this);
     }
     getAll(_req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -76,6 +77,25 @@ class CarTypeResolver {
                 const { name } = req.body;
                 const createdCartype = yield this.carTypeService.create(name);
                 res.status(201).json(createdCartype);
+            }
+            catch (err) {
+                console.log(err);
+                res.status(500).send('Bad request');
+            }
+        });
+    }
+    remove(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = Number(req.params.id);
+                const cartype = yield this.carTypeService.getById(id);
+                if (!cartype) {
+                    res.status(404).send('Car type not found');
+                }
+                else {
+                    yield this.carTypeService.remove(id);
+                    res.status(209).send(`Successfully removed`);
+                }
             }
             catch (err) {
                 console.log(err);

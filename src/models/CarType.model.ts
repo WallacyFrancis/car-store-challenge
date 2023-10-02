@@ -1,20 +1,15 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from './index';
+import Cars from './Cars.model';
  
 class CarType extends Model {
   public id!: number;
-  public name!: string;
+  public name: string;
   public static readonly tableName = 'car_types';
 }
 
 CarType.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false,
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -26,5 +21,8 @@ CarType.init(
     timestamps: false, 
   }
 );
+
+// association 1:N
+CarType.hasMany(Cars, { foreignKey: 'car_type_id', as: 'car_type_id' })
 
 export default CarType;

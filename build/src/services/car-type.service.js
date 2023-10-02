@@ -36,8 +36,15 @@ class CarTypeService {
     }
     create(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield models_1.default.query('SELECT setval(\'"type_car_id_seq"\', (SELECT MAX("id") FROM "type_car"))');
+            // solução para inserção de dados após executar seeders
+            yield models_1.default.query('SELECT setval(\'"car_types_id_seq"\', (SELECT MAX("id") FROM "car_types"))');
             const result = yield CarType_model_1.default.create({ name });
+            return result;
+        });
+    }
+    remove(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield CarType_model_1.default.destroy({ where: { id } });
             return result;
         });
     }

@@ -9,12 +9,6 @@ class Cars extends sequelize_1.Model {
 }
 Cars.tableName = 'cars';
 Cars.init({
-    id: {
-        type: sequelize_1.DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false,
-    },
     name: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,

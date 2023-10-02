@@ -12,40 +12,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const CarType_model_1 = __importDefault(require("../models/CarType.model"));
-class CarTypeService {
+const CarPieceAssociations_model_1 = __importDefault(require("../models/CarPieceAssociations.model"));
+class CarPieceAssociationService {
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarType_model_1.default.findAll();
+            const result = yield CarPieceAssociations_model_1.default.findAll();
             return result;
         });
     }
     ;
     getById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarType_model_1.default.findByPk(id);
+            const result = yield CarPieceAssociations_model_1.default.findByPk(id);
             return result;
         });
     }
     ;
-    update(id, name) {
+    update(id, car_id, piece_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [result] = yield CarType_model_1.default.update({ name }, { where: { id } });
+            const [result] = yield CarPieceAssociations_model_1.default.update({ car_id, piece_id }, { where: { id } });
             return result;
         });
     }
     ;
-    create(name) {
+    create(car_id, piece_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarType_model_1.default.create({ name });
+            const result = yield CarPieceAssociations_model_1.default.create({ car_id, piece_id });
             return result;
         });
     }
     remove(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarType_model_1.default.destroy({ where: { id } });
+            const result = yield CarPieceAssociations_model_1.default.destroy({ where: { id } });
             return result;
         });
     }
 }
-exports.default = CarTypeService;
+exports.default = CarPieceAssociationService;

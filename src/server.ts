@@ -1,3 +1,5 @@
+// docker exer postgres
+// docker exec -it postgres psql -U root -d postgres
 import dotenv from "dotenv"
 import app from "./app"
 

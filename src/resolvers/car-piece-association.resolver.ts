@@ -1,34 +1,34 @@
 import { Request, Response } from "express";
-import CarService from "../services/car.service";
+import CarPieceAssociationService from "../services/car-piece-association.service";
 
-export class CarResolver {
-  carService: CarService;
+export class CarPieceAssociationResolver {
+  carPieceAssociation: CarPieceAssociationService;
 
-  constructor(carService = new CarService()) {
-    this.carService = carService;
+  constructor(carPieceAssociation = new CarPieceAssociationService()) {
+    this.carPieceAssociation = carPieceAssociation;
     this.getAll = this.getAll.bind(this);
     this.getById = this.getById.bind(this);
     this.update = this.update.bind(this);
     this.create = this.create.bind(this);
     this.remove = this.remove.bind(this);
-  }
+  };
 
   public async getAll(_req: Request, res: Response): Promise<void> {
     try {
-      const cartypes = await this.carService.getAll();
-      res.status(200).json(cartypes);
+      const associations = await this.carPieceAssociation.getAll();
+      res.status(200).json(associations);
     } catch (err) {
       console.log(err);
       res.status(500).send('Bad request');
     }
-  }
+  };
 
   public async getById(req: Request, res: Response): Promise<void> {
     try {
       const id = Number(req.params.id);
-      const car = await this.carService.getById(id);
-      if (!car) res.status(404).send('Car not found');
-      else res.status(200).json(car);
+      const association = await this.carPieceAssociation.getById(id);
+      if (!association) res.status(404).send('Association not found');
+      else res.status(200).json(association);
     } catch (err) {
       console.log(err);
       res.status(500).send('Bad request');
@@ -38,14 +38,15 @@ export class CarResolver {
   public async update(req: Request, res: Response): Promise<void> {
     try {
       const id = Number(req.params.id);
-      const { name, age, carTypeId } = req.body;
+      const carId = Number(req.body.carId);
+      const pieceId = Number(req.body.pieceId);
 
-      const car = await this.carService.getById(id);
-      if (!car) {
-        res.status(404).send('Car type not found');
+      const association = await this.carPieceAssociation.getById(id);
+      if (!association) {
+        res.status(404).send('Association not found');
       } else {
-        await this.carService.update(id, name, age, carTypeId)
-        res.status(200).json({ updated: `car id ${car.id}` })
+        await this.carPieceAssociation.update(id, carId, pieceId)
+        res.status(200).json({ updated: `car id ${association.id}` })
       }
 
     } catch (err) {
@@ -56,10 +57,10 @@ export class CarResolver {
  
   public async create(req: Request, res: Response): Promise<void> {
     try {
-      const { name, age } = req.body;
-      const carTypeId = Number(req.body.carTypeId);
-      const createdCartype = await this.carService.create(name, age, carTypeId);
-      res.status(201).json(createdCartype)
+      const carId = Number(req.body.carId);
+      const pieceId = Number(req.body.pieceId);
+      const associationCreated = await this.carPieceAssociation.create(carId, pieceId);
+      res.status(201).json(associationCreated)
     } catch (err) {
       console.log(err);
       res.status(500).send('Bad request');
@@ -69,11 +70,11 @@ export class CarResolver {
   public async remove(req: Request, res: Response): Promise<void> {
     try {
       const id = Number(req.params.id);
-      const car = await this.carService.getById(id);
-      if (!car) {
+      const association = await this.carPieceAssociation.getById(id);
+      if (!association) {
         res.status(404).send('Car type not found');
       } else {
-        await this.carService.remove(id)
+        await this.carPieceAssociation.remove(id)
         res.status(209).send(`Successfully removed`)
       }
     } catch (err) {

@@ -12,40 +12,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const CarType_model_1 = __importDefault(require("../models/CarType.model"));
-class CarTypeService {
+const Cars_model_1 = __importDefault(require("../models/Cars.model"));
+class CarService {
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarType_model_1.default.findAll();
+            const result = yield Cars_model_1.default.findAll();
             return result;
         });
     }
     ;
     getById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarType_model_1.default.findByPk(id);
+            const result = yield Cars_model_1.default.findByPk(id);
             return result;
         });
     }
     ;
-    update(id, name) {
+    update(id, name, age, carTypeId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [result] = yield CarType_model_1.default.update({ name }, { where: { id } });
+            const [result] = yield Cars_model_1.default.update({ name, age, carTypeId }, { where: { id } });
             return result;
         });
     }
     ;
-    create(name) {
+    create(name, age, carTypeId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarType_model_1.default.create({ name });
+            const result = yield Cars_model_1.default.create({ name, age, "car_type_id": carTypeId });
             return result;
         });
     }
     remove(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarType_model_1.default.destroy({ where: { id } });
+            const result = yield Cars_model_1.default.destroy({ where: { id } });
             return result;
         });
     }
 }
-exports.default = CarTypeService;
+exports.default = CarService;

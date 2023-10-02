@@ -1,6 +1,5 @@
 import ICar from "../interfaces/Car.interface";
 import Cars from "../models/Cars.model";
-import sequelize from "../models"
 
 export default class CarService {
   public async getAll(): Promise<Cars[]> {
@@ -22,8 +21,6 @@ export default class CarService {
   };
 
   public async create(name: string, age: Date, carTypeId: number): Promise<ICar> {
-    // solução para inserção de dados após executar seeders
-    await sequelize.query('SELECT setval(\'"cars_id_seq"\', (SELECT MAX("id") FROM "cars"))');
     const result = await Cars.create({ name, age, "car_type_id": carTypeId })
     return result;
   }

@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CarPieceAssociationResolver = void 0;
 const car_piece_association_service_1 = __importDefault(require("../services/car-piece-association.service"));
 class CarPieceAssociationResolver {
-    constructor(carService = new car_piece_association_service_1.default()) {
-        this.carPieceAssociation = carService;
+    constructor(carPieceAssociation = new car_piece_association_service_1.default()) {
+        this.carPieceAssociation = carPieceAssociation;
         this.getAll = this.getAll.bind(this);
         this.getById = this.getById.bind(this);
         this.update = this.update.bind(this);
@@ -43,7 +43,7 @@ class CarPieceAssociationResolver {
                 const id = Number(req.params.id);
                 const association = yield this.carPieceAssociation.getById(id);
                 if (!association)
-                    res.status(404).send('Car not found');
+                    res.status(404).send('Association not found');
                 else
                     res.status(200).json(association);
             }

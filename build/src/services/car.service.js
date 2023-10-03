@@ -28,6 +28,14 @@ class CarService {
         });
     }
     ;
+    getCarByCarTypeId(carTypeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield Cars_model_1.default.findAll({
+                where: { 'car_type_id': carTypeId }
+            });
+            return result;
+        });
+    }
     update(id, name, age, carTypeId) {
         return __awaiter(this, void 0, void 0, function* () {
             const [result] = yield Cars_model_1.default.update({ name, age, carTypeId }, { where: { id } });

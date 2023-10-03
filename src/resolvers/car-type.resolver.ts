@@ -1,11 +1,15 @@
 import { Request, Response } from "express";
 import CarTypeService from "../services/car-type.service";
+import CarService from "../services/car.service";
 
 export class CarTypeResolver {
   carTypeService: CarTypeService;
+  carService: CarService;
 
-  constructor(carTypeService = new CarTypeService()) {
+  constructor(carTypeService = new CarTypeService(), carService = new CarService()) {
     this.carTypeService = carTypeService;
+    this.carService = carService;
+
     this.getAll = this.getAll.bind(this);
     this.getById = this.getById.bind(this);
     this.update = this.update.bind(this);
@@ -28,6 +32,10 @@ export class CarTypeResolver {
       const id = Number(req.params.id);
       const cartype = await this.carTypeService.getById(id);
       if (!cartype) res.status(404).send('Car type not found');
+      else if (req.query.includeCar === 'true') {
+        const cars = await this.carService.getCarByCarTypeId(id);
+        res.status(200).json({ cartype, cars });
+      }
       else res.status(200).json(cartype);
     } catch (err) {
       console.log(err);

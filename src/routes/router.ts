@@ -5,6 +5,7 @@ import { PieceResolver } from "../resolvers/piece.resolver";
 import { CarPieceAssociationResolver } from "../resolvers/car-piece-association.resolver";
 
 const router = Router();
+
 const carTypeResolver = new CarTypeResolver();
 const carResolver = new CarResolver();
 const pieceresolver = new PieceResolver();

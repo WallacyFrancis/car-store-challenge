@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const CarType_model_1 = __importDefault(require("../models/CarType.model"));
+const Cars_model_1 = __importDefault(require("../models/Cars.model"));
 class CarTypeService {
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -23,7 +24,10 @@ class CarTypeService {
     ;
     getById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarType_model_1.default.findByPk(id);
+            const result = yield CarType_model_1.default.findOne({
+                where: { id },
+                include: [{ model: Cars_model_1.default, as: 'car_type_id', attributes: { exclude: ['created_at', 'updated_at'] } }]
+            });
             return result;
         });
     }

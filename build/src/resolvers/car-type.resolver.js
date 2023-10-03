@@ -14,9 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CarTypeResolver = void 0;
 const car_type_service_1 = __importDefault(require("../services/car-type.service"));
+const car_service_1 = __importDefault(require("../services/car.service"));
 class CarTypeResolver {
-    constructor(carTypeService = new car_type_service_1.default()) {
+    constructor(carTypeService = new car_type_service_1.default(), carService = new car_service_1.default()) {
         this.carTypeService = carTypeService;
+        this.carService = carService;
         this.getAll = this.getAll.bind(this);
         this.getById = this.getById.bind(this);
         this.update = this.update.bind(this);
@@ -42,6 +44,10 @@ class CarTypeResolver {
                 const cartype = yield this.carTypeService.getById(id);
                 if (!cartype)
                     res.status(404).send('Car type not found');
+                else if (req.query.includeCar === 'true') {
+                    const cars = yield this.carService.getCarByCarTypeId(id);
+                    res.status(200).json({ cartype, cars });
+                }
                 else
                     res.status(200).json(cartype);
             }

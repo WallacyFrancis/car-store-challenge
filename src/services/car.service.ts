@@ -12,10 +12,17 @@ export default class CarService {
     return result;
   };
 
+  public async getCarByCarTypeId(carTypeId: number): Promise<Cars[] | null> {
+    const result = await Cars.findAll({
+      where: { 'car_type_id': carTypeId}
+    });
+    return result
+  }
+
   public async update(id: number, name: string, age: Date, carTypeId: number): Promise<number | null> {
     const [result] = await Cars.update(
       { name, age, carTypeId },
-      { where: { id }},
+      { where: { id } },
     )
     return result;
   };

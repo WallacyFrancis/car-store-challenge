@@ -53,6 +53,22 @@ class CarPieceAssociationResolver {
             }
         });
     }
+    getPiecesFromCarsId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = Number(req.params.id);
+                const associationCars = yield this.carPieceAssociation.getPiecesFromCarsId(id);
+                if (!associationCars)
+                    res.status(404).send('Association not found');
+                else
+                    res.status(200).json(associationCars);
+            }
+            catch (err) {
+                console.log(err);
+                res.status(500).send('Bad request');
+            }
+        });
+    }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

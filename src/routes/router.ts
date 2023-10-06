@@ -35,6 +35,7 @@ router.delete('/pieces/:id', pieceresolver.remove);
 // associations
 router.get('/associations', carPieceAssociationResolver.getAll);
 router.get('/associations/:id', carPieceAssociationResolver.getById);
+router.get('/associations/cars/:id', carPieceAssociationResolver.getPiecesFromCarsId);
 router.put('/associations/:id', carPieceAssociationResolver.update);
 router.post('/associations', carPieceAssociationResolver.create);
 router.delete('/associations/:id', carPieceAssociationResolver.remove);

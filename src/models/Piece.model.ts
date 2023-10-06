@@ -15,7 +15,8 @@ Piece.init(
     },
   },
   {
-    sequelize, 
+    sequelize,
+    underscored: true, 
     modelName: 'pieces',
     timestamps: false, 
   }

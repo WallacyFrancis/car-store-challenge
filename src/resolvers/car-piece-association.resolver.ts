@@ -11,6 +11,7 @@ export class CarPieceAssociationResolver {
     this.update = this.update.bind(this);
     this.create = this.create.bind(this);
     this.remove = this.remove.bind(this);
+    this.getPiecesFromCarsId = this.getPiecesFromCarsId.bind(this);
   };
 
   public async getAll(_req: Request, res: Response): Promise<void> {
@@ -32,6 +33,18 @@ export class CarPieceAssociationResolver {
     } catch (err) {
       console.log(err);
       res.status(500).send('Bad request');
+    }
+  }
+
+  public async getPiecesFromCarsId(req: Request, res: Response) {
+    try {
+      const id = Number(req.params.id);
+      const associationCars = await this.carPieceAssociation.getPiecesFromCarsId(id);
+      if (!associationCars) res.status(404).send('Association not found');
+      else res.status(200).json(associationCars);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send(err);
     }
   }
 

@@ -5,8 +5,8 @@ import Piece from './Piece.model';
 
 class CarPieceAssociation extends Model {
   public id!: number;
-  public car_id: number;
-  public piece_id: number;
+  public car_id!: number;
+  public piece_id!: number;
   public createdAt!: Date;
   public updatedAt!: Date;
   public static readonly tableName = 'car_piece_association';
@@ -14,27 +14,30 @@ class CarPieceAssociation extends Model {
 
 CarPieceAssociation.init(
   {
-    car_id: {
+    carId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
+      field: 'car_id',
       references: {
-        model: Cars,
+        model: 'cars',
         key: 'id',
       },
     },
-    piece_id: {
+    pieceId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
+      field: 'piece_id',
       references: {
-        model: Piece,
+        model: 'pieces',
         key: 'id',
       },
     },
   },
   {
     sequelize,
+    underscored: true,
     modelName: 'car_piece_association', 
     createdAt: 'created_at',
     updatedAt: 'updated_at',
@@ -46,14 +49,15 @@ Cars.belongsToMany(Piece, {
   through: CarPieceAssociation,
   foreignKey: 'car_id',
   otherKey: 'piece_id',
-  as: 'pieces',
+  as: 'pieces', // --> não sei explicar o porque desta nomecltura, antes era cars
 });
+
 
 Piece.belongsToMany(Cars, {
   through: CarPieceAssociation,
   foreignKey: 'piece_id',
   otherKey: 'car_id',
-  as: 'cars',
+  as: 'pieces',
 });
 
 export default CarPieceAssociation;

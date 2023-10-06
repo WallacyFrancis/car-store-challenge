@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const CarPieceAssociations_model_1 = __importDefault(require("../models/CarPieceAssociations.model"));
+const Cars_model_1 = __importDefault(require("../models/Cars.model"));
+const Piece_model_1 = __importDefault(require("../models/Piece.model"));
 class CarPieceAssociationService {
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -21,6 +23,15 @@ class CarPieceAssociationService {
         });
     }
     ;
+    getPiecesFromCarsId(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield Cars_model_1.default.findOne({
+                where: { id },
+                include: [{ model: Piece_model_1.default, as: 'pieces', through: { attributes: [] } }]
+            });
+            return result;
+        });
+    }
     getById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield CarPieceAssociations_model_1.default.findByPk(id);

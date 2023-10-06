@@ -12,15 +12,27 @@ module.exports = {
       },
       carId: {
         allowNull: false,
-        foreignKey: true,
         type: Sequelize.INTEGER,
         field: 'car_id',
+        primaryKey: true,
+        references: {
+          model: 'cars',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       pieceId: {
         allowNull: false,
-        foreignKey: true,
         type: Sequelize.INTEGER,
         field: 'piece_id',
+        primaryKey: true,
+        references: {
+          model: 'pieces',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,

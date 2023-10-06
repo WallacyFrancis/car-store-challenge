@@ -1,11 +1,21 @@
 import ICarPieceAssociation from "../interfaces/CarPieceAssociation";
 import CarPieceAssociation from "../models/CarPieceAssociations.model";
+import Cars from "../models/Cars.model";
+import Piece from "../models/Piece.model";
 
 export default class CarPieceAssociationService {
   public async getAll(): Promise<ICarPieceAssociation[]> {
     const result = await CarPieceAssociation.findAll();
     return result;
   };
+
+  public async getPiecesFromCarsId(id: number) {
+    const result = await Cars.findOne({
+      where: { id },
+      include: [{ model: Piece, as: 'pieces', through: { attributes: [] }}]
+    })
+    return result;
+  }
 
   public async getById(id: number): Promise<ICarPieceAssociation | null> {
     const result = await CarPieceAssociation.findByPk(id);

@@ -2,13 +2,13 @@ class Maintenance {
   private id?: string;
   private description: string;
   private carId: number;
-  private date: Date;
+  private date: string;
 
   construction(
     id: string | undefined,
     description: string,
     carId: number,
-    date: Date
+    date: string
   ) {
     this.id = id;
     this.description = description;
@@ -40,7 +40,7 @@ class Maintenance {
     return this.carId;
   }
 
-  public setDate(date: Date) {
+  public setDate(date: string) {
     this.date = date;
   }
 

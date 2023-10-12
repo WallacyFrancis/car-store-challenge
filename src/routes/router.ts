@@ -3,6 +3,7 @@ import { CarTypeResolver } from "../resolvers/car-type.resolver";
 import { CarResolver } from "../resolvers/car.resolver";
 import { PieceResolver } from "../resolvers/piece.resolver";
 import { CarPieceAssociationResolver } from "../resolvers/car-piece-association.resolver";
+import { MaintenanceResolver } from "../resolvers/maintenance.resolver";
 
 const router = Router();
 
@@ -10,6 +11,7 @@ const carTypeResolver = new CarTypeResolver();
 const carResolver = new CarResolver();
 const pieceresolver = new PieceResolver();
 const carPieceAssociationResolver = new CarPieceAssociationResolver();
+const maintenanceResolver = new MaintenanceResolver();
 
 // car-types
 router.get('/car-types', carTypeResolver.getAll);
@@ -39,5 +41,9 @@ router.get('/associations/cars/:id', carPieceAssociationResolver.getPiecesFromCa
 router.put('/associations/:id', carPieceAssociationResolver.update);
 router.post('/associations', carPieceAssociationResolver.create);
 router.delete('/associations/:id', carPieceAssociationResolver.remove);
+
+//maintenanceResolver
+router.get('/maintenance', maintenanceResolver.getAll);
+router.put('/maintenance', maintenanceResolver.create);
 
 export default router;

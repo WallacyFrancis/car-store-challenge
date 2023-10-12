@@ -1,7 +1,7 @@
 interface IMaintenances {
   description: string;
   carId: number;
-  date: Date;
+  date: string;
 }
 
 export default IMaintenances;

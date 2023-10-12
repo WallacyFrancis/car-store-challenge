@@ -9,13 +9,17 @@ class MaintenancesModel {
     this.schema = new Schema<IMaintenances>({
       description: { type: String, required: true },
       carId: { type: Number, required: true },
-      date: { type: Date, required: true}
+      date: { type: String, required: true}
     });
     this.model = models.Maintenance || model('Maintenance', this.schema);
   }
 
   public async create(maintenance: IMaintenances): Promise<IMaintenances> {
     return this.model.create({ ...maintenance });
+  }
+
+  public async getAll(): Promise<IMaintenances[]> {
+    return this.model.find()
   }
 };
 

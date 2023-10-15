@@ -3,8 +3,22 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Car {
+  age: Float!
+  carType: CarType!
+  carTypeId: Float!
+  id: ID!
+  name: String!
+}
+
 type CarType {
-  id: Float!
+  id: ID!
+  name: String!
+}
+
+input CreateCar {
+  age: Float!
+  carTypeId: Float!
   name: String!
 }
 
@@ -12,11 +26,38 @@ input CreateCarType {
   name: String!
 }
 
+input DeleteCar {
+  id: ID!
+}
+
+input DeleteCarType {
+  id: Float!
+}
+
 type Mutation {
+  createCar(input: CreateCar!): Car!
   createCarType(input: CreateCarType!): CarType!
+  deleteCar(input: DeleteCar!): Boolean!
+  deleteCarType(input: DeleteCarType!): Boolean!
+  updateCar(input: UpdateCar!): Car!
+  updateCarType(input: UpdateCarType!): CarType!
 }
 
 type Query {
-  carTypeById(id: Float!): CarType
+  car(id: Float!): Car!
+  carTypeId(id: Float!): CarType
   carTypes: [CarType!]!
+  cars: [Car!]!
+}
+
+input UpdateCar {
+  age: Float!
+  carTypeId: Float!
+  id: ID!
+  name: String!
+}
+
+input UpdateCarType {
+  id: ID!
+  name: String!
 }

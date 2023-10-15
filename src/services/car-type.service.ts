@@ -11,7 +11,7 @@ export default class CarTypeService {
   public async getById(id: number): Promise<ICarType | null> {
     const result = await CarType.findOne({
       where: { id },
-      include: [{ model: Cars, as: 'car_type_id', attributes: { exclude: ['created_at', 'updated_at']}}]
+      // include: [{ model: Cars, as: 'car_type_id', attributes: { exclude: ['created_at', 'updated_at']}}]
     });
     return result;
   };

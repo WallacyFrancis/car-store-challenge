@@ -19,7 +19,7 @@ export default class CarService {
     return result
   }
 
-  public async update(id: number, name: string, age: Date, carTypeId: number): Promise<number | null> {
+  public async update(id: number, name: string, age: number, carTypeId: number): Promise<number | null> {
     const [result] = await Cars.update(
       { name, age, carTypeId },
       { where: { id } },
@@ -27,8 +27,9 @@ export default class CarService {
     return result;
   };
 
-  public async create(name: string, age: Date, carTypeId: number): Promise<ICar> {
-    const result = await Cars.create({ name, age, "car_type_id": carTypeId })
+  public async create(name: string, age: number, carTypeId: number): Promise<ICar> {
+    console.log(carTypeId)
+    const result = await Cars.create({ name, age, carTypeId })
     return result;
   }
 

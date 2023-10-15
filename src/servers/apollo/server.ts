@@ -3,13 +3,16 @@ import path from "node:path"
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
 import { CarTypeResolver } from "../../resolvers/carTypes.resolver";
+import { CarResolver } from "../../resolvers/car.resolver";
 
 async function bootstrap() {
   const schema = await buildSchema({
     resolvers: [
       CarTypeResolver,
+      CarResolver,
     ],
-    emitSchemaFile: path.resolve(__dirname, '../../schemas/schema.gql')
+    emitSchemaFile: path.resolve(__dirname, '../../schemas/schema.gql'),
+    validate: false
   })
 
   const server = new ApolloServer({

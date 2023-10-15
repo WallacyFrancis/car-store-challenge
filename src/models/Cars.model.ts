@@ -21,9 +21,10 @@ Cars.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    car_type_id: {
+    carTypeId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      field: "car_type_id",
       references: {
         model: 'car_types', 
         key: 'id',
@@ -39,12 +40,5 @@ Cars.init(
     updatedAt: 'updated_at',
   }
 );
-
-// Cars.belongsToMany(Piece, {
-//   through: CarPieceAssociation,
-//   foreignKey: 'car_id',
-//   otherKey: 'piece_id',
-//   as: 'cars',
-// });
 
 export default Cars;

@@ -1,5 +1,5 @@
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
-import { CarType, CreateCarType } from '../graphql/car-type.schema';
+import { CarType, CreateCarType, UpdateCarType, DeleteCarType } from '../graphql/car-type.typeDefs';
 import CarTypeService from '../services/car-type.service';
 
 @Resolver()
@@ -17,20 +17,30 @@ export class CarTypeResolver {
   }
 
   @Query(() => CarType, { nullable: true })
-  async carTypeById(@Arg('id') id: number) {
+  async carTypeId(@Arg('id') id: number) {
     const carType = await this.carTypeService.getById(id);
     return carType;
   }
 
   @Mutation(() => CarType)
-  async createCarType(@Arg('name') name: string) {
+  async createCarType(@Arg('input') input: CreateCarType) {
+    const { name } = input
     const carType = await this.carTypeService.create(name);
     return carType;
   }
 
   @Mutation(() => CarType)
-  async updateCarType(@Arg('id') id: number, @Arg('name') name: string) {
-    const carType = await this.carTypeService.update(id, name);
+  async updateCarType(@Arg('input') input: UpdateCarType) {
+    const { id, name } = input
+    await this.carTypeService.update(id, name);
+    const carType = await this.carTypeService.getById(id)
     return carType;
+  }
+
+  @Mutation(() => Boolean)
+  async deleteCarType(@Arg('input') input: DeleteCarType) {
+    const { id } = input
+    await this.carTypeService.remove(id);
+    return true;
   }
 }

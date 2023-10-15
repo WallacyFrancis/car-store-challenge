@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import MaintenanceService from "../services/maintenance.service";
 
-export class MaintenanceResolver {
+export class MaintenanceController {
   maitenanceService: MaintenanceService;
 
   constructor(maitenanceService = new MaintenanceService()) {

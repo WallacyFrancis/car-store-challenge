@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import CarPieceAssociationService from "../services/car-piece-association.service";
 
-export class CarPieceAssociationResolver {
+export class CarPieceAssociationController {
   carPieceAssociation: CarPieceAssociationService;
 
   constructor(carPieceAssociation = new CarPieceAssociationService()) {

@@ -1,7 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from './index';
-// import Piece from './Piece.model';
-// import CarPieceAssociation from './CarPieceAssociations.model';
 
 class Cars extends Model {
   public id!: number;

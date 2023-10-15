@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import CarService from "../services/car.service";
 
-export class CarResolver {
+export class CarController {
   carService: CarService;
 
   constructor(carService = new CarService()) {

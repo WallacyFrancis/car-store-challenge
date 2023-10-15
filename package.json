@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build && node ./dist/src/server.js",
-    "dev": "tsnd --respawn --transpile-only src/server.ts",
+    "dev:express": "tsnd --respawn --transpile-only src/servers/express/server.ts",
+    "dev:gql": "tsnd --respawn --transpile-only src/servers/apollo/server.ts",
     "build": "tsc"
   },
   "repository": {
@@ -32,8 +33,9 @@
     "apollo-server": "^3.12.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-graphql": "^0.12.0",
     "graphql": "^15.8.0",
-    "graphql-scalars": "^1.22.2",
+    "graphql-scalars": "^1.22.4",
     "mongoose": "7.5.3",
     "pg": "^8.11.3",
     "postgres": "^3.3.5",

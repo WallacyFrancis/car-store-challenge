@@ -26,6 +26,12 @@ input CreateCarType {
   name: String!
 }
 
+input CreateMaintenance {
+  carId: Float!
+  date: String!
+  description: String!
+}
+
 input CreatePiece {
   name: String!
 }
@@ -38,19 +44,33 @@ input DeleteCarType {
   id: Float!
 }
 
+input DeleteMaintenance {
+  id: ID!
+}
+
 input DeletePiece {
+  id: ID!
+}
+
+type Maintenances {
+  carId: Float!
+  date: String!
+  description: String!
   id: ID!
 }
 
 type Mutation {
   createCar(input: CreateCar!): Car!
   createCarType(input: CreateCarType!): CarType!
+  createMaintenance(input: CreateMaintenance!): Maintenances!
   createPiece(input: CreatePiece!): Pieces!
   deleteCar(input: DeleteCar!): Boolean!
   deleteCarType(input: DeleteCarType!): Boolean!
+  deleteMaintenance(input: DeleteMaintenance!): Boolean!
   deletePiece(input: DeletePiece!): Boolean!
   updateCar(input: UpdateCar!): Car!
   updateCarType(input: UpdateCarType!): CarType!
+  updateMaintenance(input: UpdateMaintenance!): Maintenances!
   updatePiece(input: UpdatePiece!): Pieces!
 }
 
@@ -65,6 +85,9 @@ type Query {
   carTypeId(id: Float!): CarType
   carTypes: [CarType!]!
   cars: [Car!]!
+  maitenances: [Maintenances!]!
+  maitenancesByCarId(carId: Float!): [Maintenances!]!
+  maitenancesById(id: String!): Maintenances!
   piece(id: String!): Pieces!
   pieces: [Pieces!]!
 }
@@ -79,6 +102,11 @@ input UpdateCar {
 input UpdateCarType {
   id: ID!
   name: String!
+}
+
+input UpdateMaintenance {
+  description: String!
+  id: ID!
 }
 
 input UpdatePiece {

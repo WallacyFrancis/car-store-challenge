@@ -5,13 +5,16 @@ import { buildSchema } from "type-graphql";
 import { CarTypeResolver } from "../../resolvers/carTypes.resolver";
 import { CarResolver } from "../../resolvers/car.resolver";
 import { PieceResolver } from "../../resolvers/piece.resolver";
+import { MaintenanceResolver } from "../../resolvers/maitenances.resolver";
+import connectToDatabase from "../../mongo/model/ConnectionMDB";
 
-async function bootstrap() {
+async function main() {
   const schema = await buildSchema({
     resolvers: [
       CarTypeResolver,
       CarResolver,
       PieceResolver,
+      MaintenanceResolver,
     ],
     emitSchemaFile: path.resolve(__dirname, '../../schemas/schema.gql'),
     validate: false
@@ -23,7 +26,15 @@ async function bootstrap() {
 
   const { url } = await server.listen()
 
-  console.log(`Server running on ${url}`)
+  connectToDatabase()
+    .then(() => {
+      console.log(`Server running on ${url}`)
+    })
+    .catch(error => {
+      console.log('Connection with database generated an error:\r\n');
+      console.error(error);
+      console.log('\r\nServer initialization cancelled');
+    })
 }
 
-bootstrap()
+main()

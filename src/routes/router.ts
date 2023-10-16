@@ -43,6 +43,10 @@ router.post('/associations/delete', carPieceAssociationController.removeAssociat
 
 //maintenanceResolver
 router.get('/maintenance', maintenanceController.getAll);
-router.put('/maintenance', maintenanceController.create);
+router.get('/maintenance/:id', maintenanceController.getById);
+router.get('/maintenance/car/:carId', maintenanceController.getByCarId);
+router.post('/maintenance', maintenanceController.create);
+router.put('/maintenance/:id', maintenanceController.updateOne);
+router.delete('/maintenance/:id', maintenanceController.deleteOne);
 
 export default router;

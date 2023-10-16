@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { CarTypeController } from "../../controllers/car-type.controller";
-import { CarController } from "../../controllers/car.controller";
-import { PieceController } from "../../controllers/piece.controller";
-import { CarPieceAssociationController } from "../../controllers/car-piece-association.controller";
-import { MaintenanceController } from "../../controllers/maintenance.constroller";
+import { CarTypeController } from "../controllers/car-type.controller";
+import { CarController } from "../controllers/car.controller";
+import { PieceController } from "../controllers/piece.controller";
+import { CarPieceAssociationController } from "../controllers/car-piece-association.controller";
+import { MaintenanceController } from "../controllers/maintenance.constroller";
 
 const router = Router();
 
@@ -36,11 +36,10 @@ router.delete('/pieces/:id', pieceController.remove);
 
 // associations
 router.get('/associations', carPieceAssociationController.getAll);
-router.get('/associations/:id', carPieceAssociationController.getById);
 router.get('/associations/cars/:id', carPieceAssociationController.getPiecesFromCarsId);
-router.put('/associations/:id', carPieceAssociationController.update);
+router.get('/associations/pieces/:id', carPieceAssociationController.getCarsFromPieceId);
 router.post('/associations', carPieceAssociationController.create);
-router.delete('/associations/:id', carPieceAssociationController.remove);
+router.post('/associations/delete', carPieceAssociationController.removeAssociation);
 
 //maintenanceResolver
 router.get('/maintenance', maintenanceController.getAll);

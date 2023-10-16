@@ -17,26 +17,23 @@ export default class CarPieceAssociationService {
     return result;
   }
 
-  public async getById(id: number): Promise<ICarPieceAssociation | null> {
-    const result = await CarPieceAssociation.findByPk(id);
-    return result;
-  };
-
-  public async update(id: number, car_id: number, piece_id: number): Promise<number | null> {
-    const [result] = await CarPieceAssociation.update(
-      { car_id, piece_id },
-      { where: { id }},
-    );
-    return result;
-  };
-
-  public async create(car_id: number, piece_id: number): Promise<ICarPieceAssociation> {
-    const result = await CarPieceAssociation.create({ car_id, piece_id });
+  public async getCarsFromPiecesId(id: number) {
+    const result = await Piece.findOne({
+      where: { id },
+      include: [{ model: Cars, as: 'cars', through: { attributes: [] }}]
+    })
     return result;
   }
 
-  public async remove(id: number): Promise<number | null> {
-    const result = await CarPieceAssociation.destroy({ where: { id } });
+  public async create(carId: number, pieceId: number): Promise<ICarPieceAssociation> {
+    const result = await CarPieceAssociation.create({ carId, pieceId });
+    return result;
+  }
+
+  public async removeAssociation(carId: number, pieceId: number) {
+    const result = await CarPieceAssociation.destroy({
+      where: {carId, pieceId}
+    })
     return result
   }
 }

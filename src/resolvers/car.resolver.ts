@@ -36,6 +36,22 @@ export class CarResolver {
     return carType;
   }
 
+  // @FieldResolver(() => [Pieces])
+  // async pieces(@Root() car: Car) {
+  //   const pieces = await this.carPieceAssociationService.getPiecesFromCarsId(car?.dataValues?.id)
+  //   console.log(pieces)
+  //   return [
+  //     {
+  //       id: 1,
+  //       name: "teste"
+  //     },
+  //     {
+  //       id: 1,
+  //       name: "teste"
+  //     },
+  //   ]
+  // }
+
   @Mutation(() => Car)
   async createCar(@Arg('input') input: CreateCar) {
     const { name, age, carTypeId } = input;

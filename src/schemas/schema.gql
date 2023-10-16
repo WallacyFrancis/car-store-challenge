@@ -26,6 +26,10 @@ input CreateCarType {
   name: String!
 }
 
+input CreatePiece {
+  name: String!
+}
+
 input DeleteCar {
   id: ID!
 }
@@ -34,13 +38,26 @@ input DeleteCarType {
   id: Float!
 }
 
+input DeletePiece {
+  id: ID!
+}
+
 type Mutation {
   createCar(input: CreateCar!): Car!
   createCarType(input: CreateCarType!): CarType!
+  createPiece(input: CreatePiece!): Pieces!
   deleteCar(input: DeleteCar!): Boolean!
   deleteCarType(input: DeleteCarType!): Boolean!
+  deletePiece(input: DeletePiece!): Boolean!
   updateCar(input: UpdateCar!): Car!
   updateCarType(input: UpdateCarType!): CarType!
+  updatePiece(input: UpdatePiece!): Pieces!
+}
+
+type Pieces {
+  cars: [Car!]!
+  id: ID!
+  name: String!
 }
 
 type Query {
@@ -48,6 +65,8 @@ type Query {
   carTypeId(id: Float!): CarType
   carTypes: [CarType!]!
   cars: [Car!]!
+  piece(id: String!): Pieces!
+  pieces: [Pieces!]!
 }
 
 input UpdateCar {
@@ -58,6 +77,11 @@ input UpdateCar {
 }
 
 input UpdateCarType {
+  id: ID!
+  name: String!
+}
+
+input UpdatePiece {
   id: ID!
   name: String!
 }

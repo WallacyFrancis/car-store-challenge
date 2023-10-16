@@ -7,11 +7,10 @@ export class CarPieceAssociationController {
   constructor(carPieceAssociation = new CarPieceAssociationService()) {
     this.carPieceAssociation = carPieceAssociation;
     this.getAll = this.getAll.bind(this);
-    this.getById = this.getById.bind(this);
-    this.update = this.update.bind(this);
     this.create = this.create.bind(this);
-    this.remove = this.remove.bind(this);
     this.getPiecesFromCarsId = this.getPiecesFromCarsId.bind(this);
+    this.getCarsFromPieceId = this.getCarsFromPieceId.bind(this);
+    this.removeAssociation = this.removeAssociation.bind(this);
   };
 
   public async getAll(_req: Request, res: Response): Promise<void> {
@@ -23,18 +22,6 @@ export class CarPieceAssociationController {
       res.status(500).send('Bad request');
     }
   };
-
-  public async getById(req: Request, res: Response): Promise<void> {
-    try {
-      const id = Number(req.params.id);
-      const association = await this.carPieceAssociation.getById(id);
-      if (!association) res.status(404).send('Association not found');
-      else res.status(200).json(association);
-    } catch (err) {
-      console.log(err);
-      res.status(500).send('Bad request');
-    }
-  }
 
   public async getPiecesFromCarsId(req: Request, res: Response) {
     try {
@@ -48,23 +35,15 @@ export class CarPieceAssociationController {
     }
   }
 
-  public async update(req: Request, res: Response): Promise<void> {
+  public async getCarsFromPieceId(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      const carId = Number(req.body.carId);
-      const pieceId = Number(req.body.pieceId);
-
-      const association = await this.carPieceAssociation.getById(id);
-      if (!association) {
-        res.status(404).send('Association not found');
-      } else {
-        await this.carPieceAssociation.update(id, carId, pieceId)
-        res.status(200).json({ updated: `car id ${association.id}` })
-      }
-
+      const associationCars = await this.carPieceAssociation.getCarsFromPiecesId(id);
+      if (!associationCars) res.status(404).send('Association not found');
+      else res.status(200).json(associationCars);
     } catch (err) {
       console.log(err);
-      res.status(500).send('Bad request');
+      res.status(500).send(err);
     }
   }
  
@@ -80,16 +59,12 @@ export class CarPieceAssociationController {
     }
   }
 
-  public async remove(req: Request, res: Response): Promise<void> {
+  public async removeAssociation(req: Request, res: Response): Promise<void> {
     try {
-      const id = Number(req.params.id);
-      const association = await this.carPieceAssociation.getById(id);
-      if (!association) {
-        res.status(404).send('Car type not found');
-      } else {
-        await this.carPieceAssociation.remove(id)
-        res.status(209).send(`Successfully removed`)
-      }
+      const carId = Number(req.body.carId);
+      const pieceId = Number(req.body.pieceId);
+      await this.carPieceAssociation.removeAssociation(carId, pieceId);
+      res.status(201).json({ removed: true });
     } catch (err) {
       console.log(err);
       res.status(500).send('Bad request');

@@ -1,6 +1,5 @@
 import ICarType from "../interfaces/CarType.interface";
 import CarType from "../models/CarType.model";
-import Cars from "../models/Cars.model";
 
 export default class CarTypeService {
   public async getAll(): Promise<ICarType[]> {

@@ -2,7 +2,7 @@
 // docker exec -it postgres psql -U root -d postgres
 import dotenv from "dotenv"
 import app from "./servers/express/app"
-import connectToDatabase from "./models/ConnectionMDB";
+import connectToDatabase from "./mongo/model/ConnectionMDB";
 
 dotenv.config();
 

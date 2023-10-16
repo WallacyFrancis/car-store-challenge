@@ -4,7 +4,6 @@ import Cars from './Cars.model';
 import Piece from './Piece.model';
 
 class CarPieceAssociation extends Model {
-  public id!: number;
   public car_id!: number;
   public piece_id!: number;
   public createdAt!: Date;
@@ -49,15 +48,14 @@ Cars.belongsToMany(Piece, {
   through: CarPieceAssociation,
   foreignKey: 'car_id',
   otherKey: 'piece_id',
-  as: 'pieces', // --> não sei explicar o porque desta nomecltura, antes era cars
+  as: 'pieces',
 });
-
 
 Piece.belongsToMany(Cars, {
   through: CarPieceAssociation,
   foreignKey: 'piece_id',
   otherKey: 'car_id',
-  as: 'pieces',
+  as: 'cars',
 });
 
 export default CarPieceAssociation;

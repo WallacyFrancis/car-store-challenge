@@ -1,6 +1,6 @@
 import dotenv from "dotenv"
 import app from './app'
-import connectToDatabase from "../../models/ConnectionMDB";
+import connectToDatabase from "../../mongo/model/ConnectionMDB";
 
 dotenv.config();
 

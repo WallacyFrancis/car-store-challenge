@@ -45,7 +45,8 @@ class CarService {
     ;
     create(name, age, carTypeId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield Cars_model_1.default.create({ name, age, "car_type_id": carTypeId });
+            console.log(carTypeId);
+            const result = yield Cars_model_1.default.create({ name, age, carTypeId });
             return result;
         });
     }

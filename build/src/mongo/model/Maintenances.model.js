@@ -8,47 +8,49 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const CarType_model_1 = __importDefault(require("../models/CarType.model"));
-class CarTypeService {
+const mongoose_1 = require("mongoose");
+class MaintenancesModel {
+    constructor() {
+        this.schema = new mongoose_1.Schema({
+            description: { type: String, required: true },
+            carId: { type: Number, required: true },
+            date: { type: String, required: true }
+        });
+        this.model = mongoose_1.models.Maintenance || (0, mongoose_1.model)('Maintenance', this.schema);
+    }
+    create(maintenance) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.model.create(Object.assign({}, maintenance));
+        });
+    }
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarType_model_1.default.findAll();
-            return result;
+            return yield this.model.find();
         });
     }
-    ;
     getById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarType_model_1.default.findOne({
-                where: { id },
-                // include: [{ model: Cars, as: 'car_type_id', attributes: { exclude: ['created_at', 'updated_at']}}]
-            });
-            return result;
+            return yield this.model.findById(id);
         });
     }
-    ;
-    update(id, name) {
+    getByCarId(carId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [result] = yield CarType_model_1.default.update({ name }, { where: { id } });
-            return result;
+            return yield this.model.find({ carId: carId });
         });
     }
-    ;
-    create(name) {
+    updateById(id, description) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarType_model_1.default.create({ name });
-            return result;
+            yield this.model.findOneAndUpdate({ _id: id }, { $set: { description } });
+            return yield this.model.findById(id);
         });
     }
-    remove(id) {
+    removeOne(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarType_model_1.default.destroy({ where: { id } });
-            return result;
+            yield this.model.deleteOne({ _id: id });
+            return true;
         });
     }
 }
-exports.default = CarTypeService;
+;
+exports.default = MaintenancesModel;

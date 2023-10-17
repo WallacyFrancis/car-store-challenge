@@ -24,119 +24,102 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CarResolver = void 0;
+exports.MaintenanceResolver = void 0;
 const type_graphql_1 = require("type-graphql");
-const car_typeDefs_1 = require("../graphql/car.typeDefs");
-const car_type_typeDefs_1 = require("../graphql/car-type.typeDefs");
-const car_service_1 = __importDefault(require("../services/car.service"));
-const car_type_service_1 = __importDefault(require("../services/car-type.service"));
-let CarResolver = class CarResolver {
-    constructor(carService = new car_service_1.default(), carTypeService = new car_type_service_1.default()) {
-        this.carService = carService;
-        this.carTypeService = carTypeService;
+const maintenances_typeDefs_1 = require("../graphql/maintenances.typeDefs");
+const maintenance_service_1 = __importDefault(require("../services/maintenance.service"));
+let MaintenanceResolver = class MaintenanceResolver {
+    constructor(maintenaceService = new maintenance_service_1.default()) {
+        this.maitenanceService = maintenaceService;
     }
-    cars() {
+    maitenances() {
         return __awaiter(this, void 0, void 0, function* () {
-            const cars = yield this.carService.getAll();
-            return cars;
+            const maitenances = yield this.maitenanceService.getAllMaintenances();
+            return maitenances;
         });
     }
-    car(id) {
+    maitenancesByCarId(carId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const cars = yield this.carService.getById(id);
-            return cars;
+            const maitenances = yield this.maitenanceService.getMaintenecesByCarId(carId);
+            return maitenances;
         });
     }
-    carType(car) {
-        var _a;
+    maitenancesById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const carType = yield this.carTypeService.getById((_a = car === null || car === void 0 ? void 0 : car.dataValues) === null || _a === void 0 ? void 0 : _a.carTypeId);
-            return carType;
+            const maitenances = yield this.maitenanceService.getMaintenecesById(id);
+            return maitenances;
         });
     }
-    // @FieldResolver(() => [Pieces])
-    // async pieces(@Root() car: Car) {
-    //   const pieces = await this.carPieceAssociationService.getPiecesFromCarsId(car?.dataValues?.id)
-    //   console.log(pieces)
-    //   return [
-    //     {
-    //       id: 1,
-    //       name: "teste"
-    //     },
-    //     {
-    //       id: 1,
-    //       name: "teste"
-    //     },
-    //   ]
-    // }
-    createCar(input) {
+    createMaintenance(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { name, age, carTypeId } = input;
-            const car = yield this.carService.create(name, age, carTypeId);
-            return car;
+            const { carId, description, date } = input;
+            const maintenanceInput = {
+                carId: Number(carId),
+                description,
+                date
+            };
+            const maitenances = yield this.maitenanceService.createMaintenances(maintenanceInput);
+            return maitenances;
         });
     }
-    updateCar(input) {
+    updateMaintenance(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id, name, age, carTypeId } = input;
-            const numberId = Number(id);
-            yield this.carService.update(numberId, name, age, carTypeId);
-            const car = yield this.carService.getById(numberId);
-            return car;
+            const { id, description } = input;
+            const maitenances = yield this.maitenanceService.updateById(id, description);
+            return maitenances;
         });
     }
-    deleteCar(input) {
+    deleteMaintenance(input) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = input;
-            const numberId = Number(id);
-            yield this.carService.remove(numberId);
+            yield this.maitenanceService.removeOne(id);
             return true;
         });
     }
 };
-exports.CarResolver = CarResolver;
+exports.MaintenanceResolver = MaintenanceResolver;
 __decorate([
-    (0, type_graphql_1.Query)(() => [car_typeDefs_1.Car]),
+    (0, type_graphql_1.Query)(() => [maintenances_typeDefs_1.Maintenances]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], CarResolver.prototype, "cars", null);
+], MaintenanceResolver.prototype, "maitenances", null);
 __decorate([
-    (0, type_graphql_1.Query)(() => car_typeDefs_1.Car),
-    __param(0, (0, type_graphql_1.Arg)('id')),
+    (0, type_graphql_1.Query)(() => [maintenances_typeDefs_1.Maintenances]),
+    __param(0, (0, type_graphql_1.Arg)('carId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], CarResolver.prototype, "car", null);
+], MaintenanceResolver.prototype, "maitenancesByCarId", null);
 __decorate([
-    (0, type_graphql_1.FieldResolver)(() => car_type_typeDefs_1.CarType),
-    __param(0, (0, type_graphql_1.Root)()),
+    (0, type_graphql_1.Query)(() => maintenances_typeDefs_1.Maintenances),
+    __param(0, (0, type_graphql_1.Arg)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [car_typeDefs_1.Car]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], CarResolver.prototype, "carType", null);
+], MaintenanceResolver.prototype, "maitenancesById", null);
 __decorate([
-    (0, type_graphql_1.Mutation)(() => car_typeDefs_1.Car),
+    (0, type_graphql_1.Mutation)(() => maintenances_typeDefs_1.Maintenances),
     __param(0, (0, type_graphql_1.Arg)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [car_typeDefs_1.CreateCar]),
+    __metadata("design:paramtypes", [maintenances_typeDefs_1.CreateMaintenance]),
     __metadata("design:returntype", Promise)
-], CarResolver.prototype, "createCar", null);
+], MaintenanceResolver.prototype, "createMaintenance", null);
 __decorate([
-    (0, type_graphql_1.Mutation)(() => car_typeDefs_1.Car),
+    (0, type_graphql_1.Mutation)(() => maintenances_typeDefs_1.Maintenances),
     __param(0, (0, type_graphql_1.Arg)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [car_typeDefs_1.UpdateCar]),
+    __metadata("design:paramtypes", [maintenances_typeDefs_1.UpdateMaintenance]),
     __metadata("design:returntype", Promise)
-], CarResolver.prototype, "updateCar", null);
+], MaintenanceResolver.prototype, "updateMaintenance", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => Boolean),
     __param(0, (0, type_graphql_1.Arg)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [car_typeDefs_1.DeleteCar]),
+    __metadata("design:paramtypes", [maintenances_typeDefs_1.DeleteMaintenance]),
     __metadata("design:returntype", Promise)
-], CarResolver.prototype, "deleteCar", null);
-exports.CarResolver = CarResolver = __decorate([
-    (0, type_graphql_1.Resolver)(() => car_typeDefs_1.Car),
-    __metadata("design:paramtypes", [Object, Object])
-], CarResolver);
+], MaintenanceResolver.prototype, "deleteMaintenance", null);
+exports.MaintenanceResolver = MaintenanceResolver = __decorate([
+    (0, type_graphql_1.Resolver)(),
+    __metadata("design:paramtypes", [Object])
+], MaintenanceResolver);

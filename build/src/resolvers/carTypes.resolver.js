@@ -24,119 +24,85 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CarResolver = void 0;
+exports.CarTypeResolver = void 0;
 const type_graphql_1 = require("type-graphql");
-const car_typeDefs_1 = require("../graphql/car.typeDefs");
 const car_type_typeDefs_1 = require("../graphql/car-type.typeDefs");
-const car_service_1 = __importDefault(require("../services/car.service"));
 const car_type_service_1 = __importDefault(require("../services/car-type.service"));
-let CarResolver = class CarResolver {
-    constructor(carService = new car_service_1.default(), carTypeService = new car_type_service_1.default()) {
-        this.carService = carService;
+let CarTypeResolver = class CarTypeResolver {
+    constructor(carTypeService = new car_type_service_1.default()) {
         this.carTypeService = carTypeService;
     }
-    cars() {
+    carTypes() {
         return __awaiter(this, void 0, void 0, function* () {
-            const cars = yield this.carService.getAll();
-            return cars;
+            const carTypes = yield this.carTypeService.getAll();
+            return carTypes;
         });
     }
-    car(id) {
+    carTypeId(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const cars = yield this.carService.getById(id);
-            return cars;
-        });
-    }
-    carType(car) {
-        var _a;
-        return __awaiter(this, void 0, void 0, function* () {
-            const carType = yield this.carTypeService.getById((_a = car === null || car === void 0 ? void 0 : car.dataValues) === null || _a === void 0 ? void 0 : _a.carTypeId);
+            const carType = yield this.carTypeService.getById(id);
             return carType;
         });
     }
-    // @FieldResolver(() => [Pieces])
-    // async pieces(@Root() car: Car) {
-    //   const pieces = await this.carPieceAssociationService.getPiecesFromCarsId(car?.dataValues?.id)
-    //   console.log(pieces)
-    //   return [
-    //     {
-    //       id: 1,
-    //       name: "teste"
-    //     },
-    //     {
-    //       id: 1,
-    //       name: "teste"
-    //     },
-    //   ]
-    // }
-    createCar(input) {
+    createCarType(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { name, age, carTypeId } = input;
-            const car = yield this.carService.create(name, age, carTypeId);
-            return car;
+            const { name } = input;
+            const carType = yield this.carTypeService.create(name);
+            return carType;
         });
     }
-    updateCar(input) {
+    updateCarType(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id, name, age, carTypeId } = input;
-            const numberId = Number(id);
-            yield this.carService.update(numberId, name, age, carTypeId);
-            const car = yield this.carService.getById(numberId);
-            return car;
+            const { id, name } = input;
+            yield this.carTypeService.update(id, name);
+            const carType = yield this.carTypeService.getById(id);
+            return carType;
         });
     }
-    deleteCar(input) {
+    deleteCarType(input) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = input;
-            const numberId = Number(id);
-            yield this.carService.remove(numberId);
+            yield this.carTypeService.remove(id);
             return true;
         });
     }
 };
-exports.CarResolver = CarResolver;
+exports.CarTypeResolver = CarTypeResolver;
 __decorate([
-    (0, type_graphql_1.Query)(() => [car_typeDefs_1.Car]),
+    (0, type_graphql_1.Query)(() => [car_type_typeDefs_1.CarType]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], CarResolver.prototype, "cars", null);
+], CarTypeResolver.prototype, "carTypes", null);
 __decorate([
-    (0, type_graphql_1.Query)(() => car_typeDefs_1.Car),
+    (0, type_graphql_1.Query)(() => car_type_typeDefs_1.CarType, { nullable: true }),
     __param(0, (0, type_graphql_1.Arg)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], CarResolver.prototype, "car", null);
+], CarTypeResolver.prototype, "carTypeId", null);
 __decorate([
-    (0, type_graphql_1.FieldResolver)(() => car_type_typeDefs_1.CarType),
-    __param(0, (0, type_graphql_1.Root)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [car_typeDefs_1.Car]),
-    __metadata("design:returntype", Promise)
-], CarResolver.prototype, "carType", null);
-__decorate([
-    (0, type_graphql_1.Mutation)(() => car_typeDefs_1.Car),
+    (0, type_graphql_1.Mutation)(() => car_type_typeDefs_1.CarType),
     __param(0, (0, type_graphql_1.Arg)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [car_typeDefs_1.CreateCar]),
+    __metadata("design:paramtypes", [car_type_typeDefs_1.CreateCarType]),
     __metadata("design:returntype", Promise)
-], CarResolver.prototype, "createCar", null);
+], CarTypeResolver.prototype, "createCarType", null);
 __decorate([
-    (0, type_graphql_1.Mutation)(() => car_typeDefs_1.Car),
+    (0, type_graphql_1.Mutation)(() => car_type_typeDefs_1.CarType),
     __param(0, (0, type_graphql_1.Arg)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [car_typeDefs_1.UpdateCar]),
+    __metadata("design:paramtypes", [car_type_typeDefs_1.UpdateCarType]),
     __metadata("design:returntype", Promise)
-], CarResolver.prototype, "updateCar", null);
+], CarTypeResolver.prototype, "updateCarType", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => Boolean),
     __param(0, (0, type_graphql_1.Arg)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [car_typeDefs_1.DeleteCar]),
+    __metadata("design:paramtypes", [car_type_typeDefs_1.DeleteCarType]),
     __metadata("design:returntype", Promise)
-], CarResolver.prototype, "deleteCar", null);
-exports.CarResolver = CarResolver = __decorate([
-    (0, type_graphql_1.Resolver)(() => car_typeDefs_1.Car),
-    __metadata("design:paramtypes", [Object, Object])
-], CarResolver);
+], CarTypeResolver.prototype, "deleteCarType", null);
+exports.CarTypeResolver = CarTypeResolver = __decorate([
+    (0, type_graphql_1.Resolver)(),
+    __metadata("design:paramtypes", [Object])
+], CarTypeResolver);

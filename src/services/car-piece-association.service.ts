@@ -9,6 +9,11 @@ export default class CarPieceAssociationService {
     return result;
   };
 
+  public async getById(id: number): Promise<ICarPieceAssociation | null> {
+    const result = await CarPieceAssociation.findByPk(id);
+    return result;
+  };
+
   public async getPiecesFromCarsId(id: number) {
     const result = await Cars.findOne({
       where: { id },
@@ -30,9 +35,16 @@ export default class CarPieceAssociationService {
     return result;
   }
 
-  public async removeAssociation(carId: number, pieceId: number) {
+  public async removeAssociation(carId: number, pieceId: number): Promise<number | null> {
     const result = await CarPieceAssociation.destroy({
-      where: {carId, pieceId}
+      where: {carId, pieceId},
+    })
+    return result
+  }
+
+  public async remove(id: number): Promise<number | null> {
+    const result = await CarPieceAssociation.destroy({
+      where: { id },
     })
     return result
   }

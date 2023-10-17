@@ -4,6 +4,7 @@ import Cars from './Cars.model';
 import Piece from './Piece.model';
 
 class CarPieceAssociation extends Model {
+  public id: number;
   public car_id!: number;
   public piece_id!: number;
   public createdAt!: Date;
@@ -13,6 +14,12 @@ class CarPieceAssociation extends Model {
 
 CarPieceAssociation.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     carId: {
       type: DataTypes.INTEGER,
       allowNull: false,

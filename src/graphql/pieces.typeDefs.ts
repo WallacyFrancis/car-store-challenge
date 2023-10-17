@@ -5,13 +5,13 @@ import { Car } from './car.typeDefs';
 export class Pieces {
   [x: string]: any;
   @Field(() => ID)
-  id: string
+  id: string;
 
   @Field()
-  name: string
+  name: string;
 
   @Field(() => [Car])
-  cars: Car
+  cars: Car[];
 }
 
 @InputType()

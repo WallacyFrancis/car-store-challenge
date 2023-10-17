@@ -20,8 +20,8 @@ export class PieceResolver {
 
   @Query(() => [Pieces])
   async pieces() {
-    const cars = await this.pieceService.getAll();
-    return cars;
+    const pieces = await this.pieceService.getAll();
+    return pieces;
   }
 
   @Query(() => Pieces)
@@ -33,14 +33,9 @@ export class PieceResolver {
 
   @FieldResolver(() => [Car])
   async cars(@Root() piece: Pieces) {
+    console.log(piece);
     const cars = await this.carPieceAssociationService.getCarsFromPiecesId(piece?.dataValues?.id);
-    console.log(cars)
-    // return cars
-    return [
-      {
-        id: 1
-      }
-    ];
+    return [cars];
   }
 
   @Mutation(() => Pieces)

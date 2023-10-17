@@ -24,73 +24,85 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CarPieceAssociation = void 0;
+exports.CarTypeResolver = void 0;
 const type_graphql_1 = require("type-graphql");
-const car_pieces_associations_typeDefs_1 = require("../graphql/car-pieces-associations.typeDefs");
-const car_piece_association_service_1 = __importDefault(require("../services/car-piece-association.service"));
-let CarPieceAssociation = class CarPieceAssociation {
-    constructor(carPieceAssociationsService = new car_piece_association_service_1.default()) {
-        this.carPieceAssociationsService = carPieceAssociationsService;
+const car_type_typeDefs_1 = require("../graphql/car-type.typeDefs");
+const car_type_service_1 = __importDefault(require("../services/car-type.service"));
+let CarTypeResolver = class CarTypeResolver {
+    constructor(carTypeService = new car_type_service_1.default()) {
+        this.carTypeService = carTypeService;
     }
-    carPieceAssociations() {
+    carTypes() {
         return __awaiter(this, void 0, void 0, function* () {
-            const associations = yield this.carPieceAssociationsService.getAll();
-            console.log(associations);
-            return associations;
+            const carTypes = yield this.carTypeService.getAll();
+            return carTypes;
         });
     }
-    carPieceAssociation(id) {
+    carTypeId(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const numberId = Number(id);
-            const associations = yield this.carPieceAssociationsService.getById(numberId);
-            return associations;
+            const carType = yield this.carTypeService.getById(id);
+            return carType;
         });
     }
-    createAssociations(input) {
+    createCarType(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            const numberCarId = Number(input.carId);
-            const numberPieceId = Number(input.pieceId);
-            const association = yield this.carPieceAssociationsService.create(numberCarId, numberPieceId);
-            return association;
+            const { name } = input;
+            const carType = yield this.carTypeService.create(name);
+            return carType;
         });
     }
-    deleteAssociations(input) {
+    updateCarType(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            const numberId = Number(input.id);
-            yield this.carPieceAssociationsService.remove(numberId);
+            const { id, name } = input;
+            yield this.carTypeService.update(id, name);
+            const carType = yield this.carTypeService.getById(id);
+            return carType;
+        });
+    }
+    deleteCarType(input) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = input;
+            yield this.carTypeService.remove(id);
             return true;
         });
     }
 };
-exports.CarPieceAssociation = CarPieceAssociation;
+exports.CarTypeResolver = CarTypeResolver;
 __decorate([
-    (0, type_graphql_1.Query)(() => [car_pieces_associations_typeDefs_1.CarPieceAssociations]),
+    (0, type_graphql_1.Query)(() => [car_type_typeDefs_1.CarType]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], CarPieceAssociation.prototype, "carPieceAssociations", null);
+], CarTypeResolver.prototype, "carTypes", null);
 __decorate([
-    (0, type_graphql_1.Query)(() => car_pieces_associations_typeDefs_1.CarPieceAssociations),
+    (0, type_graphql_1.Query)(() => car_type_typeDefs_1.CarType, { nullable: true }),
     __param(0, (0, type_graphql_1.Arg)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], CarPieceAssociation.prototype, "carPieceAssociation", null);
+], CarTypeResolver.prototype, "carTypeId", null);
 __decorate([
-    (0, type_graphql_1.Mutation)(() => car_pieces_associations_typeDefs_1.CarPieceAssociations),
+    (0, type_graphql_1.Mutation)(() => car_type_typeDefs_1.CarType),
     __param(0, (0, type_graphql_1.Arg)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [car_pieces_associations_typeDefs_1.CreateCarPieceAssociations]),
+    __metadata("design:paramtypes", [car_type_typeDefs_1.CreateCarType]),
     __metadata("design:returntype", Promise)
-], CarPieceAssociation.prototype, "createAssociations", null);
+], CarTypeResolver.prototype, "createCarType", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => car_type_typeDefs_1.CarType),
+    __param(0, (0, type_graphql_1.Arg)('input')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [car_type_typeDefs_1.UpdateCarType]),
+    __metadata("design:returntype", Promise)
+], CarTypeResolver.prototype, "updateCarType", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => Boolean),
     __param(0, (0, type_graphql_1.Arg)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [car_pieces_associations_typeDefs_1.DeleteAssociations]),
+    __metadata("design:paramtypes", [car_type_typeDefs_1.DeleteCarType]),
     __metadata("design:returntype", Promise)
-], CarPieceAssociation.prototype, "deleteAssociations", null);
-exports.CarPieceAssociation = CarPieceAssociation = __decorate([
-    (0, type_graphql_1.Resolver)(() => car_pieces_associations_typeDefs_1.CarPieceAssociations),
+], CarTypeResolver.prototype, "deleteCarType", null);
+exports.CarTypeResolver = CarTypeResolver = __decorate([
+    (0, type_graphql_1.Resolver)(),
     __metadata("design:paramtypes", [Object])
-], CarPieceAssociation);
+], CarTypeResolver);

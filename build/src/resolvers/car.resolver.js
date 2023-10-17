@@ -1,4 +1,16 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -13,96 +25,121 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CarResolver = void 0;
+const type_graphql_1 = require("type-graphql");
+const car_typeDefs_1 = require("../graphql/car.typeDefs");
+const car_type_typeDefs_1 = require("../graphql/car-type.typeDefs");
+const pieces_typeDefs_1 = require("../graphql/pieces.typeDefs");
 const car_service_1 = __importDefault(require("../services/car.service"));
-class CarResolver {
-    constructor(carService = new car_service_1.default()) {
+const car_type_service_1 = __importDefault(require("../services/car-type.service"));
+const car_piece_association_service_1 = __importDefault(require("../services/car-piece-association.service"));
+let CarResolver = class CarResolver {
+    constructor(carService = new car_service_1.default(), carTypeService = new car_type_service_1.default(), carPieceAssociationService = new car_piece_association_service_1.default()) {
         this.carService = carService;
-        this.getAll = this.getAll.bind(this);
-        this.getById = this.getById.bind(this);
-        this.update = this.update.bind(this);
-        this.create = this.create.bind(this);
-        this.remove = this.remove.bind(this);
+        this.carTypeService = carTypeService;
+        this.carPieceAssociationService = carPieceAssociationService;
     }
-    getAll(_req, res) {
+    cars() {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const cartypes = yield this.carService.getAll();
-                res.status(200).json(cartypes);
-            }
-            catch (err) {
-                console.log(err);
-                res.status(500).send('Bad request');
-            }
+            const cars = yield this.carService.getAll();
+            return cars;
         });
     }
-    getById(req, res) {
+    car(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const id = Number(req.params.id);
-                const car = yield this.carService.getById(id);
-                if (!car)
-                    res.status(404).send('Car not found');
-                else
-                    res.status(200).json(car);
-            }
-            catch (err) {
-                console.log(err);
-                res.status(500).send('Bad request');
-            }
+            const cars = yield this.carService.getById(id);
+            return cars;
         });
     }
-    update(req, res) {
+    carType(car) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const id = Number(req.params.id);
-                const { name, age, carTypeId } = req.body;
-                const car = yield this.carService.getById(id);
-                if (!car) {
-                    res.status(404).send('Car type not found');
-                }
-                else {
-                    yield this.carService.update(id, name, age, carTypeId);
-                    res.status(200).json({ updated: `car id ${car.id}` });
-                }
-            }
-            catch (err) {
-                console.log(err);
-                res.status(500).send('Bad request');
-            }
+            const carType = yield this.carTypeService.getById((_a = car === null || car === void 0 ? void 0 : car.dataValues) === null || _a === void 0 ? void 0 : _a.carTypeId);
+            return carType;
         });
     }
-    create(req, res) {
+    pieces(car) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const { name, age } = req.body;
-                const carTypeId = Number(req.body.carTypeId);
-                const createdCartype = yield this.carService.create(name, age, carTypeId);
-                res.status(201).json(createdCartype);
-            }
-            catch (err) {
-                console.log(err);
-                res.status(500).send('Bad request');
-            }
+            const pieces = yield this.carPieceAssociationService.getCarsFromPiecesId((_a = car === null || car === void 0 ? void 0 : car.dataValues) === null || _a === void 0 ? void 0 : _a.id);
+            console.log(pieces);
+            return [pieces];
         });
     }
-    remove(req, res) {
+    createCar(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const id = Number(req.params.id);
-                const car = yield this.carService.getById(id);
-                if (!car) {
-                    res.status(404).send('Car type not found');
-                }
-                else {
-                    yield this.carService.remove(id);
-                    res.status(209).send(`Successfully removed`);
-                }
-            }
-            catch (err) {
-                console.log(err);
-                res.status(500).send('Bad request');
-            }
+            const { name, age, carTypeId } = input;
+            const car = yield this.carService.create(name, age, carTypeId);
+            return car;
         });
     }
-}
+    updateCar(input) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id, name, age, carTypeId } = input;
+            const numberId = Number(id);
+            yield this.carService.update(numberId, name, age, carTypeId);
+            const car = yield this.carService.getById(numberId);
+            return car;
+        });
+    }
+    deleteCar(input) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = input;
+            const numberId = Number(id);
+            yield this.carService.remove(numberId);
+            return true;
+        });
+    }
+};
 exports.CarResolver = CarResolver;
+__decorate([
+    (0, type_graphql_1.Query)(() => [car_typeDefs_1.Car]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], CarResolver.prototype, "cars", null);
+__decorate([
+    (0, type_graphql_1.Query)(() => car_typeDefs_1.Car),
+    __param(0, (0, type_graphql_1.Arg)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], CarResolver.prototype, "car", null);
+__decorate([
+    (0, type_graphql_1.FieldResolver)(() => car_type_typeDefs_1.CarType),
+    __param(0, (0, type_graphql_1.Root)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [car_typeDefs_1.Car]),
+    __metadata("design:returntype", Promise)
+], CarResolver.prototype, "carType", null);
+__decorate([
+    (0, type_graphql_1.FieldResolver)(() => [pieces_typeDefs_1.Pieces]),
+    __param(0, (0, type_graphql_1.Root)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [car_typeDefs_1.Car]),
+    __metadata("design:returntype", Promise)
+], CarResolver.prototype, "pieces", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => car_typeDefs_1.Car),
+    __param(0, (0, type_graphql_1.Arg)('input')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [car_typeDefs_1.CreateCar]),
+    __metadata("design:returntype", Promise)
+], CarResolver.prototype, "createCar", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => car_typeDefs_1.Car),
+    __param(0, (0, type_graphql_1.Arg)('input')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [car_typeDefs_1.UpdateCar]),
+    __metadata("design:returntype", Promise)
+], CarResolver.prototype, "updateCar", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => Boolean),
+    __param(0, (0, type_graphql_1.Arg)('input')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [car_typeDefs_1.DeleteCar]),
+    __metadata("design:returntype", Promise)
+], CarResolver.prototype, "deleteCar", null);
+exports.CarResolver = CarResolver = __decorate([
+    (0, type_graphql_1.Resolver)(() => car_typeDefs_1.Car),
+    __metadata("design:paramtypes", [Object, Object, Object])
+], CarResolver);

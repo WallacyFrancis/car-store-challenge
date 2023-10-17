@@ -1,21 +1,26 @@
 import { Query, Resolver, FieldResolver, Root, Mutation, Arg } from 'type-graphql';
 import { Car, CreateCar, UpdateCar, DeleteCar } from '../graphql/car.typeDefs';
 import { CarType } from '../graphql/car-type.typeDefs';
+import { Pieces } from '../graphql/pieces.typeDefs';
 
 import CarService from '../services/car.service';
 import CarTypeService from '../services/car-type.service';
+import CarPieceAssociationService from '../services/car-piece-association.service';
 
 @Resolver(() => Car)
 export class CarResolver {
   carService: CarService;
   carTypeService: CarTypeService;
+  carPieceAssociationService: CarPieceAssociationService;
 
   constructor(
     carService = new CarService(),
     carTypeService = new CarTypeService(),
+    carPieceAssociationService = new CarPieceAssociationService(),
   ) {
     this.carService = carService;
     this.carTypeService = carTypeService;
+    this.carPieceAssociationService = carPieceAssociationService;
   }
 
   @Query(() => [Car])
@@ -36,21 +41,12 @@ export class CarResolver {
     return carType;
   }
 
-  // @FieldResolver(() => [Pieces])
-  // async pieces(@Root() car: Car) {
-  //   const pieces = await this.carPieceAssociationService.getPiecesFromCarsId(car?.dataValues?.id)
-  //   console.log(pieces)
-  //   return [
-  //     {
-  //       id: 1,
-  //       name: "teste"
-  //     },
-  //     {
-  //       id: 1,
-  //       name: "teste"
-  //     },
-  //   ]
-  // }
+  @FieldResolver(() => [Pieces])
+  async pieces(@Root() car: Car) {
+    const pieces = await this.carPieceAssociationService.getPiecesFromCarsId(car?.dataValues?.id)
+    console.log(pieces)
+    return [pieces];
+  }
 
   @Mutation(() => Car)
   async createCar(@Arg('input') input: CreateCar) {

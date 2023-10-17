@@ -9,6 +9,13 @@ type Car {
   carTypeId: Float!
   id: ID!
   name: String!
+  pieces: [Pieces!]!
+}
+
+type CarPieceAssociations {
+  carId: Float!
+  id: ID!
+  pieceId: Float!
 }
 
 type CarType {
@@ -20,6 +27,11 @@ input CreateCar {
   age: Float!
   carTypeId: Float!
   name: String!
+}
+
+input CreateCarPieceAssociations {
+  carId: String!
+  pieceId: String!
 }
 
 input CreateCarType {
@@ -34,6 +46,10 @@ input CreateMaintenance {
 
 input CreatePiece {
   name: String!
+}
+
+input DeleteAssociations {
+  id: String!
 }
 
 input DeleteCar {
@@ -60,10 +76,12 @@ type Maintenances {
 }
 
 type Mutation {
+  createAssociations(input: CreateCarPieceAssociations!): CarPieceAssociations!
   createCar(input: CreateCar!): Car!
   createCarType(input: CreateCarType!): CarType!
   createMaintenance(input: CreateMaintenance!): Maintenances!
   createPiece(input: CreatePiece!): Pieces!
+  deleteAssociations(input: DeleteAssociations!): Boolean!
   deleteCar(input: DeleteCar!): Boolean!
   deleteCarType(input: DeleteCarType!): Boolean!
   deleteMaintenance(input: DeleteMaintenance!): Boolean!
@@ -82,6 +100,8 @@ type Pieces {
 
 type Query {
   car(id: Float!): Car!
+  carPieceAssociation(id: String!): CarPieceAssociations!
+  carPieceAssociations: [CarPieceAssociations!]!
   carTypeId(id: Float!): CarType
   carTypes: [CarType!]!
   cars: [Car!]!

@@ -23,6 +23,13 @@ class CarPieceAssociationService {
         });
     }
     ;
+    getById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield CarPieceAssociations_model_1.default.findByPk(id);
+            return result;
+        });
+    }
+    ;
     getPiecesFromCarsId(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield Cars_model_1.default.findOne({
@@ -32,29 +39,34 @@ class CarPieceAssociationService {
             return result;
         });
     }
-    getById(id) {
+    getCarsFromPiecesId(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarPieceAssociations_model_1.default.findByPk(id);
+            const result = yield Piece_model_1.default.findOne({
+                where: { id },
+                include: [{ model: Cars_model_1.default, as: 'cars', through: { attributes: [] } }]
+            });
             return result;
         });
     }
-    ;
-    update(id, car_id, piece_id) {
+    create(carId, pieceId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [result] = yield CarPieceAssociations_model_1.default.update({ car_id, piece_id }, { where: { id } });
+            const result = yield CarPieceAssociations_model_1.default.create({ carId, pieceId });
             return result;
         });
     }
-    ;
-    create(car_id, piece_id) {
+    removeAssociation(carId, pieceId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarPieceAssociations_model_1.default.create({ car_id, piece_id });
+            const result = yield CarPieceAssociations_model_1.default.destroy({
+                where: { carId, pieceId },
+            });
             return result;
         });
     }
     remove(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield CarPieceAssociations_model_1.default.destroy({ where: { id } });
+            const result = yield CarPieceAssociations_model_1.default.destroy({
+                where: { id },
+            });
             return result;
         });
     }

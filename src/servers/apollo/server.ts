@@ -6,6 +6,7 @@ import { CarTypeResolver } from "../../resolvers/carTypes.resolver";
 import { CarResolver } from "../../resolvers/car.resolver";
 import { PieceResolver } from "../../resolvers/piece.resolver";
 import { MaintenanceResolver } from "../../resolvers/maitenances.resolver";
+import { CarPieceAssociation } from "../../resolvers/car-piece-association.resolver";
 import connectToDatabase from "../../mongo/model/ConnectionMDB";
 
 async function main() {
@@ -15,6 +16,7 @@ async function main() {
       CarResolver,
       PieceResolver,
       MaintenanceResolver,
+      CarPieceAssociation,
     ],
     emitSchemaFile: path.resolve(__dirname, '../../schemas/schema.gql'),
     validate: false

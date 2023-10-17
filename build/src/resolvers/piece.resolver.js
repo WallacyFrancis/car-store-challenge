@@ -37,8 +37,8 @@ let PieceResolver = class PieceResolver {
     }
     pieces() {
         return __awaiter(this, void 0, void 0, function* () {
-            const cars = yield this.pieceService.getAll();
-            return cars;
+            const pieces = yield this.pieceService.getAll();
+            return pieces;
         });
     }
     piece(id) {
@@ -51,14 +51,9 @@ let PieceResolver = class PieceResolver {
     cars(piece) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(piece);
             const cars = yield this.carPieceAssociationService.getCarsFromPiecesId((_a = piece === null || piece === void 0 ? void 0 : piece.dataValues) === null || _a === void 0 ? void 0 : _a.id);
-            console.log(cars);
-            // return cars
-            return [
-                {
-                    id: 1
-                }
-            ];
+            return [cars];
         });
     }
     createPiece(input) {

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeleteCar = exports.UpdateCar = exports.CreateCar = exports.Car = void 0;
 const type_graphql_1 = require("type-graphql");
 const car_type_typeDefs_1 = require("./car-type.typeDefs");
+const pieces_typeDefs_1 = require("./pieces.typeDefs");
 let Car = class Car {
 };
 exports.Car = Car;
@@ -35,6 +36,10 @@ __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", car_type_typeDefs_1.CarType)
 ], Car.prototype, "carType", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => [pieces_typeDefs_1.Pieces]),
+    __metadata("design:type", pieces_typeDefs_1.Pieces)
+], Car.prototype, "pieces", void 0);
 exports.Car = Car = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], Car);

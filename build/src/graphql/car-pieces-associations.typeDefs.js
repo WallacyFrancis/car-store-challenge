@@ -9,20 +9,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeleteCarPieceAssociations = exports.CreateCarPieceAssociations = exports.CarPieceAssociations = void 0;
+exports.DeleteAssociations = exports.CreateCarPieceAssociations = exports.CarPieceAssociations = void 0;
 const type_graphql_1 = require("type-graphql");
-const car_typeDefs_1 = require("./car.typeDefs");
-const pieces_typeDefs_1 = require("./pieces.typeDefs");
 let CarPieceAssociations = class CarPieceAssociations {
 };
 exports.CarPieceAssociations = CarPieceAssociations;
 __decorate([
+    (0, type_graphql_1.Field)(() => type_graphql_1.ID),
+    __metadata("design:type", Number)
+], CarPieceAssociations.prototype, "id", void 0);
+__decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", car_typeDefs_1.Car)
+    __metadata("design:type", Number)
 ], CarPieceAssociations.prototype, "carId", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
-    __metadata("design:type", pieces_typeDefs_1.Pieces)
+    __metadata("design:type", Number)
 ], CarPieceAssociations.prototype, "pieceId", void 0);
 exports.CarPieceAssociations = CarPieceAssociations = __decorate([
     (0, type_graphql_1.ObjectType)()
@@ -41,17 +43,13 @@ __decorate([
 exports.CreateCarPieceAssociations = CreateCarPieceAssociations = __decorate([
     (0, type_graphql_1.InputType)()
 ], CreateCarPieceAssociations);
-let DeleteCarPieceAssociations = class DeleteCarPieceAssociations {
+let DeleteAssociations = class DeleteAssociations {
 };
-exports.DeleteCarPieceAssociations = DeleteCarPieceAssociations;
+exports.DeleteAssociations = DeleteAssociations;
 __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", String)
-], DeleteCarPieceAssociations.prototype, "carId", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
-    __metadata("design:type", String)
-], DeleteCarPieceAssociations.prototype, "pieceId", void 0);
-exports.DeleteCarPieceAssociations = DeleteCarPieceAssociations = __decorate([
+], DeleteAssociations.prototype, "id", void 0);
+exports.DeleteAssociations = DeleteAssociations = __decorate([
     (0, type_graphql_1.InputType)()
-], DeleteCarPieceAssociations);
+], DeleteAssociations);

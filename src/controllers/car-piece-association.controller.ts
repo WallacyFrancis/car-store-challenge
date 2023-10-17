@@ -11,11 +11,25 @@ export class CarPieceAssociationController {
     this.getPiecesFromCarsId = this.getPiecesFromCarsId.bind(this);
     this.getCarsFromPieceId = this.getCarsFromPieceId.bind(this);
     this.removeAssociation = this.removeAssociation.bind(this);
+    this.getById = this.getById.bind(this);
+    this.remove = this.remove.bind(this);
   };
 
   public async getAll(_req: Request, res: Response): Promise<void> {
     try {
       const associations = await this.carPieceAssociation.getAll();
+      res.status(200).json(associations);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send('Bad request');
+    }
+  };
+
+  public async getById(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const numberId = Number(id)
+      const associations = await this.carPieceAssociation.getById(numberId);
       res.status(200).json(associations);
     } catch (err) {
       console.log(err);
@@ -53,6 +67,18 @@ export class CarPieceAssociationController {
       const pieceId = Number(req.body.pieceId);
       const associationCreated = await this.carPieceAssociation.create(carId, pieceId);
       res.status(201).json(associationCreated)
+    } catch (err) {
+      console.log(err);
+      res.status(500).send('Bad request');
+    }
+  }
+
+  public async remove(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const numberId = Number(id)
+      await this.carPieceAssociation.remove(numberId);
+      res.status(201).json({ removed: true });
     } catch (err) {
       console.log(err);
       res.status(500).send('Bad request');

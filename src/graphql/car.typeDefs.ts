@@ -1,5 +1,6 @@
 import { Field, ObjectType, InputType, ID } from 'type-graphql';
 import { CarType } from './car-type.typeDefs';
+import { Pieces } from './pieces.typeDefs';
 
 @ObjectType()
 export class Car {
@@ -18,7 +19,10 @@ export class Car {
   carTypeId: number;
 
   @Field()
-  carType: CarType
+  carType: CarType;
+
+  @Field(() => [Pieces])
+  pieces: Pieces
 }
 
 @InputType()

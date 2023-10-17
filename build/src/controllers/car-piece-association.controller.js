@@ -22,12 +22,29 @@ class CarPieceAssociationController {
         this.getPiecesFromCarsId = this.getPiecesFromCarsId.bind(this);
         this.getCarsFromPieceId = this.getCarsFromPieceId.bind(this);
         this.removeAssociation = this.removeAssociation.bind(this);
+        this.getById = this.getById.bind(this);
+        this.remove = this.remove.bind(this);
     }
     ;
     getAll(_req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const associations = yield this.carPieceAssociation.getAll();
+                res.status(200).json(associations);
+            }
+            catch (err) {
+                console.log(err);
+                res.status(500).send('Bad request');
+            }
+        });
+    }
+    ;
+    getById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const numberId = Number(id);
+                const associations = yield this.carPieceAssociation.getById(numberId);
                 res.status(200).json(associations);
             }
             catch (err) {
@@ -76,6 +93,20 @@ class CarPieceAssociationController {
                 const pieceId = Number(req.body.pieceId);
                 const associationCreated = yield this.carPieceAssociation.create(carId, pieceId);
                 res.status(201).json(associationCreated);
+            }
+            catch (err) {
+                console.log(err);
+                res.status(500).send('Bad request');
+            }
+        });
+    }
+    remove(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const numberId = Number(id);
+                yield this.carPieceAssociation.remove(numberId);
+                res.status(201).json({ removed: true });
             }
             catch (err) {
                 console.log(err);

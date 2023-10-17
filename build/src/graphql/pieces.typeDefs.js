@@ -25,7 +25,7 @@ __decorate([
 ], Pieces.prototype, "name", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => [car_typeDefs_1.Car]),
-    __metadata("design:type", car_typeDefs_1.Car)
+    __metadata("design:type", Array)
 ], Pieces.prototype, "cars", void 0);
 exports.Pieces = Pieces = __decorate([
     (0, type_graphql_1.ObjectType)()

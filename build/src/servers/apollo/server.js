@@ -20,6 +20,7 @@ const carTypes_resolver_1 = require("../../resolvers/carTypes.resolver");
 const car_resolver_1 = require("../../resolvers/car.resolver");
 const piece_resolver_1 = require("../../resolvers/piece.resolver");
 const maitenances_resolver_1 = require("../../resolvers/maitenances.resolver");
+const car_piece_association_resolver_1 = require("../../resolvers/car-piece-association.resolver");
 const ConnectionMDB_1 = __importDefault(require("../../mongo/model/ConnectionMDB"));
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -29,6 +30,7 @@ function main() {
                 car_resolver_1.CarResolver,
                 piece_resolver_1.PieceResolver,
                 maitenances_resolver_1.MaintenanceResolver,
+                car_piece_association_resolver_1.CarPieceAssociation,
             ],
             emitSchemaFile: node_path_1.default.resolve(__dirname, '../../schemas/schema.gql'),
             validate: false

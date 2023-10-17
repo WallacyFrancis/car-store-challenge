@@ -28,12 +28,15 @@ exports.CarResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const car_typeDefs_1 = require("../graphql/car.typeDefs");
 const car_type_typeDefs_1 = require("../graphql/car-type.typeDefs");
+const pieces_typeDefs_1 = require("../graphql/pieces.typeDefs");
 const car_service_1 = __importDefault(require("../services/car.service"));
 const car_type_service_1 = __importDefault(require("../services/car-type.service"));
+const car_piece_association_service_1 = __importDefault(require("../services/car-piece-association.service"));
 let CarResolver = class CarResolver {
-    constructor(carService = new car_service_1.default(), carTypeService = new car_type_service_1.default()) {
+    constructor(carService = new car_service_1.default(), carTypeService = new car_type_service_1.default(), carPieceAssociationService = new car_piece_association_service_1.default()) {
         this.carService = carService;
         this.carTypeService = carTypeService;
+        this.carPieceAssociationService = carPieceAssociationService;
     }
     cars() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -54,21 +57,14 @@ let CarResolver = class CarResolver {
             return carType;
         });
     }
-    // @FieldResolver(() => [Pieces])
-    // async pieces(@Root() car: Car) {
-    //   const pieces = await this.carPieceAssociationService.getPiecesFromCarsId(car?.dataValues?.id)
-    //   console.log(pieces)
-    //   return [
-    //     {
-    //       id: 1,
-    //       name: "teste"
-    //     },
-    //     {
-    //       id: 1,
-    //       name: "teste"
-    //     },
-    //   ]
-    // }
+    pieces(car) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            const pieces = yield this.carPieceAssociationService.getPiecesFromCarsId((_a = car === null || car === void 0 ? void 0 : car.dataValues) === null || _a === void 0 ? void 0 : _a.id);
+            console.log(pieces);
+            return [pieces];
+        });
+    }
     createCar(input) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, age, carTypeId } = input;
@@ -116,6 +112,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CarResolver.prototype, "carType", null);
 __decorate([
+    (0, type_graphql_1.FieldResolver)(() => [pieces_typeDefs_1.Pieces]),
+    __param(0, (0, type_graphql_1.Root)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [car_typeDefs_1.Car]),
+    __metadata("design:returntype", Promise)
+], CarResolver.prototype, "pieces", null);
+__decorate([
     (0, type_graphql_1.Mutation)(() => car_typeDefs_1.Car),
     __param(0, (0, type_graphql_1.Arg)('input')),
     __metadata("design:type", Function),
@@ -138,5 +141,5 @@ __decorate([
 ], CarResolver.prototype, "deleteCar", null);
 exports.CarResolver = CarResolver = __decorate([
     (0, type_graphql_1.Resolver)(() => car_typeDefs_1.Car),
-    __metadata("design:paramtypes", [Object, Object])
+    __metadata("design:paramtypes", [Object, Object, Object])
 ], CarResolver);

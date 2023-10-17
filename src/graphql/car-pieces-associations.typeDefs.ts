@@ -1,16 +1,16 @@
-import { Field, ObjectType, InputType } from 'type-graphql';
-import { Car } from './car.typeDefs';
-import { Pieces } from './pieces.typeDefs';
+import { Field, ObjectType, InputType, ID } from 'type-graphql';
 
 @ObjectType()
 export class CarPieceAssociations {
   [x: string]: any;
+  @Field(() => ID)
+  id: number;
 
   @Field()
-  carId: Car;
+  carId: number;
 
   @Field()
-  pieceId: Pieces;
+  pieceId: number;
 }
 
 @InputType()
@@ -23,10 +23,7 @@ export class CreateCarPieceAssociations {
 }
 
 @InputType()
-export class DeleteCarPieceAssociations {
+export class DeleteAssociations {
   @Field()
-  carId: string;
-
-  @Field()
-  pieceId: string;
+  id: string;
 }

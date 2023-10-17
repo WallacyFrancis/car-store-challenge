@@ -34,8 +34,10 @@ router.delete('/pieces/:id', pieceController.remove);
 router.get('/associations', carPieceAssociationController.getAll);
 router.get('/associations/cars/:id', carPieceAssociationController.getPiecesFromCarsId);
 router.get('/associations/pieces/:id', carPieceAssociationController.getCarsFromPieceId);
+router.get('/associations/:id', carPieceAssociationController.getById);
 router.post('/associations', carPieceAssociationController.create);
 router.post('/associations/delete', carPieceAssociationController.removeAssociation);
+router.delete('/associations/:id', carPieceAssociationController.remove);
 //maintenanceResolver
 router.get('/maintenance', maintenanceController.getAll);
 router.get('/maintenance/:id', maintenanceController.getById);

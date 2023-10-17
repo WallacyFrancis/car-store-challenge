@@ -11,6 +11,12 @@ class CarPieceAssociation extends sequelize_1.Model {
 }
 CarPieceAssociation.tableName = 'car_piece_association';
 CarPieceAssociation.init({
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+    },
     carId: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
